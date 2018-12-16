@@ -1,0 +1,63 @@
+{% include 'style/css.html' %}
+<div class="container">
+    <div class="row">
+<table class="table">
+  <thead>
+    <tr>
+      <td>{{ laporan.user.nama }} </br>
+      {{ laporan.user.alamat }} TELP : {{ laporan.user.tlp }}
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr></tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>{{ laporan.created_at|date:'Y-m-d H:i' }} </br>
+            {{ laporan.user }}
+        </td>
+    </tr>
+    <tr></tr>
+    {% for list in laporan.cartitem_set.all %}
+    <tr>
+        <td>{{ list.barang }}<br>
+         {{ list.qty }} x {{ list.barang.harga }} {% if list.barang.diskon %} ({{ list.barang.diskon }} %) {% else %} (0%) {% endif %}
+         </td>
+        <td></td>
+        <td></td>
+        <td></br>{{ list.subtotal }}</td>
+    </tr>
+    <tr></tr>
+    {% endfor %}
+    <tr></tr>
+    <tr>
+        <td>{{ item }} Item</td>
+        <td></td>
+        <td  align="center">Total</td>
+        <td>{{ laporan.total }}</td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td align="center">Bayar</td>
+        <td>{{ laporan.bayar }}</td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td align="center">Kembali</td>
+        <td>{{ laporan.kembali }}</td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td></td>
+        <td>Terimakasih Kunjungan anda</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+</div>

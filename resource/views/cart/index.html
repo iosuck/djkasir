@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-left">
+<div class="col-md-5">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }} <a href="{{ cart.get_absolute_url }}">Cek</a>
+        </div>
+    {% endfor %}
+{% endif %}
+    <table class="table">
+  <thead class="bg-info">
+    <tr class="text-white">
+      <th>Penjualan</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <form action="" method="post">
+  {% csrf_token %}
+    <tr>
+      <td>Resi</td>
+      <td>
+        {% if resi %}
+        <input type="text" name="resi" value="{{ resi }}" class="form-control" disabled>
+        {% else %}
+        <input type="text" id="resi_first" class="form-control" required>
+        <input type="hidden" name="resi" id="resi">
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Barang</td>
+      <td>
+        <div class="form-inline">
+            <input type="text" name="barang" id="barang" class="form-control mr-sm-2" disabled>
+            <input type="hidden" name="barang_id" id="barang_id">
+            <span class="btn btn-info" onclick="openChildWin()">Cari</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+        <td>QTY</td>
+        <td>
+        <div class="form-inline">
+            <input type="number" name="qty" id="qty" class="form-control" required>
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div class="form-inline">
+            <button class="btn btn-primary mr-2">Masukan Keranjang</button>
+            <button class="btn ">Batal</button>
+        </div>
+        </td>
+    </tr>
+  </tbody>
+  </form>
+</table>
+</div>
+<script>
+$('#batal').click(function(){
+    location.reload();
+})
+
+function openChildWin() {
+    var left = (screen.width/2)-(600/2);
+    var top = (screen.height/2)-(500/2);
+    var childWin = window.open("/barang", "_blank", "height=400, width=800, status=yes, toolbar=no, menubar=no, location=no,addressbar=no,top="+top+",left="+left);
+}
+function setValue(nama,id,resi) {
+    var nama = nama;
+    var id = id;
+    var resi = resi;
+    $('#barang').val(nama);
+    $('#barang_id').val(id);
+    $('#resi').val(resi);
+    $('#resi_first').val(resi).prop('disabled', true);
+}
+</script>
+{% endblock content %}

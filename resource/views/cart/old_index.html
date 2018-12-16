@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }} <a href="{{ cart.get_absolute_url }}">Cek</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="row">
+    <div class="col-md-6">
+    <div class="card">
+        <div class="card-header bg-info">
+            <h4 class="card-title text-white">Penjualan</h4>
+        </div>
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="form-inline">
+                        <label for="Resi" class="mr-sm-4">Resi</label>
+                        {% if resi %}
+                        <input type="text" name="resi" value="{{ resi }}" class="col-md-7 form-control" disabled>
+                        {% else %}
+                        <input type="text" name="resi" id="resi" class="col-md-7 form-control" required>
+                        {% endif %}
+                    </div>
+                    </br>
+                    <div class="form-inline">
+                        <label for="cari" class="mr-2">Barang</label>
+                        <input type="text" name="barang" id="barang" class="col-6 form-control mr-sm-2" disabled>
+                        <input type="hidden" name="barang_id" id="barang_id">
+                        <span class="btn btn-info" onclick="openChildWin()">Cari</span>
+                    </div>
+                    </br>
+                    <div class="form-inline">
+                        <label for="qty" class="mr-4">QTY</label>
+                        <input type="number" name="qty" id="qty" class="col-3 form-control" required>
+                    </div>
+                    </br>
+                    <button class="btn btn btn-primary">Simpan</button>
+                    <span class="btn btn-info" id="batal">Batal</span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$('#batal').click(function(){
+    location.reload();
+})
+function openChildWin() {
+    var childWin = window.open("/barang", "_blank", "height=400, width=550, status=yes, toolbar=no, menubar=no, location=no,addressbar=no");
+}
+function setValue(nama,id,resi) {
+    var nama = nama;
+    var id = id;
+    var resi = resi;
+    $('#barang').val(nama);
+    $('#barang_id').val(id);
+    $('#resi').val(resi);
+}
+</script>
+{% endblock content %}

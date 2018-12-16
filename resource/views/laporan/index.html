@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <h2># Detail Transaksi</h2>
+    <table class="table">
+  <thead class="bg-primary text-white">
+    <tr>
+      <th>No.Resi</th>
+      <th>Tanggal</th>
+      <th>Total</th>
+      <th>Diskon</th>
+      <th>Total Diskon</th>
+      <th>Jumlah Bayar</th>
+      <th>Jumlah Kembali</th>
+      <th>Kasir</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for list in object_list %}
+    {% if list.total %}
+    <tr>
+      <td>{{ list.resi }}</td>
+      <td>{{ list.created_at|date:'Y-m-d H:i' }}</td>
+      <td>{{ list.total }}</td>
+      <td>{{ list.diskon }}</td>
+      <td>{{ list.total }}</td>
+      <td>{{ list.bayar }}</td>
+      <td>{{ list.kembali }}</td>
+      <td>{{ list.user }}</td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
+
+</div>
+{% endblock content %}

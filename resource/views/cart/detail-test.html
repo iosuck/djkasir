@@ -1,0 +1,92 @@
+<div class="row">
+{% if object.cartitem_set.exists %}
+<table class="table">
+  <thead class="table bg-primary">
+    <tr>
+      <th class="text-white">Barang</th>
+      <th class="text-white">Harga</th>
+      <th class="text-white">Qty</th>
+      <th class="text-white">Diskon</th>
+      <th class="text-white">Subtotal</th>
+      <th class="text-white">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for list in object.cartitem_set.all %}
+    <tr class="post{{ list.id }}">
+        <td>{{ list.barang }}</td>
+        <td>{{ list.barang.harga }}</td>
+        <td>{{ list.qty }}</td>
+        <td>
+        {% if list.barang.diskon %}
+        {{ list.barang.diskon }}%
+            {% else %}
+        {% endif %}
+            </td>
+        <td>{{ list.subtotal }}</td>
+        <td>
+            <form  method="post">
+                {% csrf_token %}
+                <input type="hidden" name="cart_id" value="{{ list.id }}">
+                <button class="btn btn-danger">Del</button>
+            </form>
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+    <h1 class="bg-primary text-white">Rp.{{ total }}</h1>
+    <input type="hidden" name="total" id="total" value="{{ total }}">
+</div>
+    <div class="col-md-5 offset-md-3">
+<form action="{% url 'cart:bayar' %}" method="post">
+{% csrf_token %}
+    <div class="form-inline">
+        <label for="bayar" class="mr-2">Bayar</label>
+        <input type="number" name="bayar" class="col form-control" id="bayar" value="0">
+    </div>
+    <input type="hidden" name="total" id="total" value="{{ total }}">
+    </br>
+    <div class="form-inline">
+        <label for="total" class="mr-2">Kembali</label>
+        <input type="number" class="col form-control" id="kembali" value="0" disabled>
+        <input type="hidden" name="kembali2" id="kembali2">
+    </div>
+    </br>
+    <div class="col-md-2 offset-md-4">
+    <input type="submit" value="Bayar" class="btn btn-primary">
+    </div>
+</form>
+
+</div>
+{% else %}
+<a href="{% url 'cart:index' %}" class="btn btn-link">Tambah Produk</a>
+{% endif %}
+<script>
+var total = $('#total').val();
+$('#bayar').click(function(){
+    $('#bayar').val('');
+})
+$('#bayar').keyup(function(e){
+    var awal = parseInt(total);
+    var bayar = parseInt($('#bayar').val());
+    var kembali = bayar - awal;
+    $('#kembali').val(kembali);
+    $('#kembali2').val(kembali);
+})
+$('#cetak').click(function(e){
+    e.preventDefault();
+    var total = $('#total').val();
+    var bayar = $('#bayar').val();
+    var kembali = $('#kembali').val();
+    $.ajax({
+        type:"POST",
+        url:"{% url 'cart:bayar' %}",
+        data:{
+            'total':total,
+            'bayar':bayar,
+            'kembali':kembali,
+        }
+    })
+})
+</script>

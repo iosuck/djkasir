@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+<div class="col-md-6">
+    <table class="table">
+  <thead class="bg-info">
+    <tr class="text-white">
+      <th>Penjualan</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <form action="" method="post">
+  {% csrf_token %}
+    <tr>
+      <td>Resi</td>
+      <td>
+        {% if resi %}
+        <input type="text" name="resi" value="{{ resi }}" class="form-control" disabled>
+        {% else %}
+        <input type="text" name="resi" id="resi" class="form-control" required>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Barang</td>
+      <td>
+        <div class="form-inline">
+            <input type="text" name="barang" id="barang" class="form-control mr-sm-2" disabled>
+            <input type="hidden" name="barang_id" id="barang_id">
+            <span class="btn btn-info" onclick="openChildWin()">Cari</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+        <td>QTY</td>
+        <td>
+        <div class="form-inline">
+            <input type="number" name="qty" id="qty" class="form-control" required>
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div class="form-inline">
+            <button class="btn btn-primary mr-2">Masukan Keranjang</button>
+            <button class="btn ">Batal</button>
+        </div>
+        </td>
+    </tr>
+  </tbody>
+  </form>
+</table>
+</div>
+</div>
+{% endblock content %}

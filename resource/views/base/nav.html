@@ -1,0 +1,33 @@
+{% load static %}
+{% url 'cart:index' as home %}
+{% url 'laporan:index' as laporan %}
+{% url 'cart:detail' request.session.cart_id as detail %}
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="{% url 'cart:index' %}">Kasir</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    {% if request.user.is_authenticated %}
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% if request.path == home  %} active{% endif %}">
+        <a class="nav-link" href="{% url 'cart:index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+         <li class="nav-item {% if request.path == laporan  %} active{% endif %}">
+        <a class="nav-link" href="{% url 'laporan:index' %}">Laporan</a>
+        </li>
+         <li class="nav-item {% if request.path == detail  %} active{% endif %}">
+        {% if request.session.cart_id %}
+            <a class="nav-link" href="{% url 'cart:detail' request.session.cart_id %}">Keranjang</a>
+            {% else %}
+            <a class="nav-link" href="#">Keranjang</a>
+        {% endif %}
+        </li>
+    </ul>
+        <a href="{% url 'user:logout' %}" class="text-white">Logout</a>
+    {% else %}
+        {% endif %}
+
+    </div>
+</nav>
